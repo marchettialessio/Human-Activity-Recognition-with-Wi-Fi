@@ -93,9 +93,9 @@
 % \IEEEoverridecommandlockouts\IEEEpubid{\makebox[\columnwidth]{PUT COPYRIGHT NOTICE HERE \hfill} \hspace{\columnsep}\makebox[\columnwidth]{ }} 
 \IEEEoverridecommandlockouts
 
-\title{Report on NNDL WIFi HAR and PI}
+\title{Report on NNDL WiFi HAR and PI}
 
-\author{Nicolò Spuri, Alessio Marchetti, Sirio Trentin$^{\dagger}$} 
+\author{Nicolò Spuri, Alessio Marchetti, Sirio Trentin\dag} 
 
 \newcounter{remark}[section]
 \newenvironment{remark}[1][]{\refstepcounter{remark}\par\medskip
@@ -106,7 +106,33 @@
 \maketitle
 
 \begin{abstract}
-
+  Human Activity Recognition is a widely studied task that can be used in several applications, for example security systems and alarms.
+  In this paper, we want to present two models based on Deep Learning techniques that can efficiently deal with Activity Recognition (AR) and Person Identification (PI) tasks.
+  Our models can distinguish different activities performed by different persons, across different time-spans and environments.
+  The recognition process is based on WiFi signals and Doppler effect because by exploiting the shift between traces we can tell if something is moving in an environment.
+  To achieve this, we trained and tested our models on an already processed dataset of Doppler traces \cite{dataset} \cite{data}.
+  The two models mainly differ in how they handle similarities between processed data by using supervised and unsupervised contrastive approaches \cite{supcon}, but they share some points in common because both have been developed starting from an already built framework \cite{sharp}.
+  Despite the differences, both models achieve very good results that can be summarized in an average accuracy of 96\% on AR for both the models and 96\% on PI for the unsupervised model, the supervised one focuses only on the activity recognition task.
+  \\\\
+  DA RIVEDERE, SOPRATTUTTO I RISULTATI
+  \\\\
 \end{abstract}
+
+\begin{IEEEkeywords}
+  Human Activity Recognition, Person Identification, Wi-Fi Sensing, Self-Supervised Learning, Contrastive Learning.
+\end{IEEEkeywords}
+
+\input{Intro}
+
+\input{related}
+
+\input{model}
+
+\input{results}
+
+\input{conclusions}
+
+\bibliography{biblio}
+\bibliographystyle{ieeetr}
 
 \end{document}
