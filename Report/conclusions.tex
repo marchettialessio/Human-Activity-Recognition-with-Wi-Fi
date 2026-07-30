@@ -1,0 +1,15 @@
+% !TEX root = template.tex
+
+\section{Concluding Remarks}
+\label{sec:conclusions}
+
+In this work, we successfully extended the capabilities of passive Wi-Fi sensing for Human Activity Recognition (HAR) and Person Identification (PI) by integrating contrastive learning paradigms into the SHARP framework. Rather than relying on standard cross-entropy classification, we demonstrated that mapping Doppler traces into a structured latent space-either through self-supervised multi-antenna views or label driven supervised contrastive learning-yields highly robust representations. Both pipelines achieved an outstanding accuracy.
+
+Because our models are trained to focus on the underlying physical similarities of an activity rather than environment-specific noise, they can be deployed in novel physical layouts without requiring extensive retraining. This makes our approach highly applicable to real-world, privacy-preserving smart environments—such as elderly care facilities or personalized smart homes—where deploying cameras is intrusive, but adapting to new room layouts and users is essential.
+
+Despite the high accuracy, our current methodology relies on a controlled dataset where activities are performed sequentially by a single subject at a time. A critical missing piece for real-world deployment is the handling of multi-subject, concurrent scenarios—for instance, identifying one person walking while another is sitting in the same room. Future iterations of this work should focus on source separation algorithms for overlapping Doppler signatures.
+
+\subsection{Project reflections}
+From a pedagogical and developmental perspective, this project provided profound insights into the mechanics of modern Deep Learning. We learned firsthand the strength of contrastive approaches: by shifting the objective from simply "predicting a label" to "understanding the structural similarity between samples" a model tends to learn more general features. Furthermore, working with the existing SHARP framework taught us the value of incremental research. We learned how to analyze an already well-built, state-of-the-art system, identify its bottlenecks, and modularly introduce new paradigms to expand its capabilities.
+
+The development process was not without significant hurdles, particularly regarding the training dynamics. Contrastive learning frameworks, notably the NT-Xent loss function, are notoriously sensitive to hyperparameter configurations, such as batch size and the temperature scaling parameter. Finding a stable training strategy required extensive empirical testing. Moreover, designing the data augmentation pipeline for the self-supervised approach proved challenging. Unlike images, where crops or color distortions are easily verified by the human eye, applying random transformations (like temporal masking or patch erasing) to complex Doppler spectrograms ran the risk of destroying the underlying physical meaning of the signal. Balancing aggressive augmentation—needed for robust contrastive learning—with signal integrity was one of the most demanding, yet rewarding, aspects of this project.

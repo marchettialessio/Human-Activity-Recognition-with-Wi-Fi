@@ -1,0 +1,31 @@
+% !TEX root = template.tex
+
+\section{Introduction}
+\label{sec:introduction}
+
+Human Activity Recognition (HAR) and Person Identification (PI) are critical components of smart environments, with applications ranging from elderly care and security surveillance to personalized user experiences. Traditional vision-based systems, while effective, raise significant privacy concerns and are sensitive to lighting conditions. This has pushed research into alternative, non-intrusive sensing modalities.\\
+Wi-Fi based sensing has emerged as a promising passive and privacy-preserving alternative. It leverages the fact that human movements disturb the propagation of radio frequency (RF) signals between transmitter and receiver \cite{sharp}. These disturbances are captured in the Channel State Information (CSI), a fine-grainged measurement of the channel's properties across multiple subcarriers. By analizing the temporal variations in CSI, specifically through the Doppler spectrum, it is possible to infer the presence and nature of movements in the environment.\\
+Despite its potential, Wi-Fi based sensing faces significant challenges. The performance of machine learning models trained on CSI data often degrades when deployed in a new environmental layout, furniture, and hardware specifics. Acquiring large, labeled datasets that cover this vast domain diversity is expensive and time-consuming.
+\\\\
+To address these challenges, we propose two pipelines based on self-supervised \cite{contrastive} and supervised contrastive learning \cite{supcon}.
+Our key insight is that the multiple antennas on a commodity Wi-Fi device provide naturally occurring, diverse views of the same physical event, furthermore we can exploit what we know from the labels of the data samples.
+\begin{itemize}
+    \item In the first pipeline we treat the Doppler spectra from our receiver antennas as four positive views of a single data sample. A deep neural network is pre-trained on a large amount of unlabeled data to learn representations that are invariant to the specific antenna view, this is then fine-tuned on a smaller labeled dataset for the downstream tasks of Activity Recognition (AR) and Person Identification (PI) using a two-headed architecture.
+    \item In the second pipeline we treat samples that share the same label as positive keys. A deep neural network is pre-trained on a large amount of unlabeled data to generalize among different environments, moments and persons, this is then fine-tuned on a smaller labeled dataset using a single head concentrating only on the AR task.
+\end{itemize}
+Our approach demonstrates that contrastive pre-training can effectively learn robust features, paving the way for more generalizable and data-efficient Wi-fi sensing systems.
+\\
+The main contributions and novelties of this work are manifold:
+\begin{itemize}
+\item
+We introduce a novel approach to Wi-Fi sensing that naturally leverages the multiple antennas of a access point, enabling highly effective self-supervised contrastive pre-training.
+\item
+Our self-supervised framework successfully implements a multi-head architecture, allowing the system to perform both Activity Recognition and Person Identification simultaneously.
+\item
+We demonstrate that integrating a supervised contrastive learning framework significantly enhances the robustness of the AR task.
+\end{itemize}
+These advancements open up numerous practical applications. A robust, non-intrusive AR and PI system can be seamlessly integrated into smart home environments to provide personalized automation (e.g., adjusting lighting or temperature based on who is in the room and what they are doing). Furthermore, it holds significant potential for privacy-preserving security surveillance and elderly care monitoring, where detecting specific movements or falls without the use of cameras is highly desirable.
+\\
+While our models demonstrate high efficiency, there is room for future improvements. Subsequent work could focus on extending the framework to handle complex multi-subject scenarios where multiple people perform different activities concurrently. Additionally, expanding the number of recognized activities and optimizing the network architecture for real-time inference on edge devices would further enhance the system's real-world deployability.
+\\\\\
+The remainder of this paper is organized as follows: Section II reviews the related work concerning Wi-Fi-based sensing and contrastive learning paradigms. Section III outlines our two proposed processing pipelines. Section IV details the data acquisition, signal processing, and feature extraction steps. Section V describes the underlying self-supervised and supervised learning frameworks. Section VI presents the experimental results and evaluates the performance of the proposed models. Finally, Section VII draws the conclusions and discusses future research directions.

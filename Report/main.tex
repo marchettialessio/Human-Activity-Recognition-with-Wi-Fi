@@ -1,0 +1,131 @@
+\documentclass[10pt, conference, letterpaper]{IEEEtran}
+
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc} 
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{multirow}
+\usepackage{cite}
+\usepackage[export]{adjustbox}
+\usepackage{breqn}
+\usepackage{mathrsfs}
+\usepackage{acronym}
+%\usepackage[keeplastbox]{flushend}
+\usepackage{setspace}
+\usepackage{bm}
+\usepackage{stackengine}
+
+\usepackage{listings}
+
+\lstset{%
+ backgroundcolor=\color[gray]{.85},
+ basicstyle=\small\ttfamily,
+ breaklines = true,
+ keywordstyle=\color{red!75},
+ columns=fullflexible,
+}%
+
+\lstdefinelanguage{BibTeX}
+  {keywords={%
+      @article,@book,@collectedbook,@conference,@electronic,@ieeetranbstctl,%
+      @inbook,@incollectedbook,@incollection,@injournal,@inproceedings,%
+      @manual,@mastersthesis,@misc,@patent,@periodical,@phdthesis,@preamble,%
+      @proceedings,@standard,@string,@techreport,@unpublished%
+      },
+   comment=[l][\itshape]{@comment},
+   sensitive=false,
+  }
+
+% listings settings from classicthesis package by
+% Andr\'{e} Miede
+\lstset{language=[LaTeX]Tex,%C++,
+    keywordstyle=\color{RoyalBlue},%\bfseries,
+    basicstyle=\small\ttfamily,
+    %identifierstyle=\color{NavyBlue},
+    commentstyle=\color{Green}\ttfamily,
+    stringstyle=\rmfamily,
+    numbers=none,%left,%
+    numberstyle=\scriptsize,%\tiny
+    stepnumber=5,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frameround=ftff,
+    frame=single
+    %frame=L
+}
+
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\thesubtable}{\alph{subtable}}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\def\delequal{\mathrel{\ensurestackMath{\stackon[1pt]{=}{\scriptscriptstyle\Delta}}}}
+
+\graphicspath{{./figures/}}
+\setlength{\belowcaptionskip}{0mm}
+\setlength{\textfloatsep}{8pt}
+
+\newcommand{\eq}[1]{Eq.~\eqref{#1}}
+\newcommand{\fig}[1]{Fig.~\ref{#1}}
+\newcommand{\tab}[1]{Tab.~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+
+\newcommand{\rev}[1]{{\color{blue}#1}}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\mytexttilde}{{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}}
+
+%\renewcommand{\baselinestretch}{0.98}
+% \renewcommand{\bottomfraction}{0.8}
+% \setlength{\abovecaptionskip}{0pt}
+\setlength{\columnsep}{0.2in}
+
+% \IEEEoverridecommandlockouts\IEEEpubid{\makebox[\columnwidth]{PUT COPYRIGHT NOTICE HERE \hfill} \hspace{\columnsep}\makebox[\columnwidth]{ }} 
+\IEEEoverridecommandlockouts
+
+\title{Human Activity Recognition and Person Identification system from Wi-Fi signals with Contrastive Learning}
+
+\author{Nicolò Spuri, Alessio Marchetti, Sirio Trentin\dag
+\thanks{$^\dag$Department of Information Engineering (DEI), University of Padova, 35131 Padova, Italy, \newline E-mail: \texttt{\{nicolo.spuri, alessio.marchetti, sirio.trentin\}@studenti.unipd.it}}
+} 
+
+\newcounter{remark}[section]
+\newenvironment{remark}[1][]{\refstepcounter{remark}\par\medskip
+   \textbf{Remark~\thesection.\theremark. #1} \rmfamily}{\medskip}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Human Activity Recognition (HAR) and Person Identification (PI) are fundamental components for next-generation smart environments, security surveillance, and personalized user systems. While traditional vision-based solutions raise severe privacy concerns, passive Wi-Fi sensing has emerged as a highly effective, non-intrusive alternative. In this paper, we present two robust Deep Learning architectures that leverage the Doppler shifts in Wi-Fi signals to accurately perform both HAR and PI. To overcome the critical challenge of generalizing across different subjects, time spans, and environmental layouts, we implement advanced representation learning techniques on a comprehensive dataset of Doppler traces. Specifically, we propose two distinct pipelines: a self-supervised contrastive approach that utilizes the signals from multiple receiver antennas as naturally augmented views, and a supervised contrastive framework optimized for task-specific feature clustering. Both methodologies demonstrate exceptional domain generalization and efficiency. The self-supervised model achieves an impressive average accuracy of 100\% on Activity Recognition and 97\% on Person Identification. Similarly, the supervised model, which is strictly dedicated to Activity Recognition, reaches a 97\% average accuracy. These results strongly validate the efficacy of contrastive pre-training in building resilient, data-efficient, and environment-independent Wi-Fi sensing systems.
+\end{abstract}
+
+\begin{IEEEkeywords}
+  Human Activity Recognition, Person Identification, Wi-Fi Sensing, Self-Supervised Learning, Contrastive Learning.
+\end{IEEEkeywords}
+
+\input{Intro}
+
+\input{related}
+
+\input{model}
+
+\input{results}
+
+\input{conclusions}
+
+\bibliography{biblio}
+\bibliographystyle{ieeetr}
+
+\end{document}

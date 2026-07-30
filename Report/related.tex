@@ -1,0 +1,28 @@
+% !TEX root = template.tex
+
+\section{Related Work}
+\label{sec:related_work}
+
+In recent years, Wi-Fi-based Human Activity Recognition (HAR) has gained significant traction as a non-intrusive alternative to vision-based monitoring. While many existing Wi-Fi HAR systems rely on active sensing—requiring the subject to carry a Wi-Fi-connected device—passive approaches have emerged as a more practical solution. Our research focuses on this passive paradigm and is heavily inspired by recent advancements in signal processing and representation learning.
+
+\subsection{Passive Wi-Fi Sensing and the SHARP Framework}
+Our models are built upon the foundational work of the SHARP (Environment and Person Independent Activity Recognition) system introduced by Meneghello et al. \cite{sharp}. SHARP demonstrated that passive sensing using commodity IEEE 802.11 access points can achieve highly accurate activity recognition, boasting an average accuracy of 95\%. The system achieves this by transforming raw Channel State Information (CSI) into Doppler spectrograms, effectively mapping how human movement alters the surrounding Radio Frequency (RF) environment.
+
+Furthermore, our models are trained and evaluated using the comprehensive dataset published alongside the SHARP system \cite{data, dataset}. This dataset utilizes an 80 MHz Wi-Fi channel and a four-antenna configuration to capture high-resolution measurements. Crucially, the data undergoes a rigorous extraction and sanitization process to remove hardware-induced phase offsets and anomalies, resulting in the clean Doppler traces that serve as the input for our neural networks.
+While SHARP represents a state-of-the-art solution, its architecture is exclusively tailored for the Activity Recognition (AR) task. This single-task focus limits its deployment in more complex smart environments where user personalization—such as Person Identification (PI)—is also required.
+
+\subsection{Contrastive Representation Learning}
+To overcome the limitations of SHARP and adapt the system for both AR and PI, our work integrates Contrastive Learning paradigms. As comprehensively reviewed by Le-Khac et al. \cite{contrastive}, contrastive representation learning is a powerful framework that teaches a model to distinguish between similar and dissimilar data points. By pulling similar samples (positive pairs) together and pushing dissimilar samples (negative pairs) apart in the embedding space, the network learns rich, generalized features without necessarily relying on vast amounts of labeled data. This approach is highly effective in making models robust to the environmental and temporal changes that typically degrade Wi-Fi sensing systems.
+
+\subsection{Self-Supervised and Supervised Contrastive Approaches}
+
+In this paper, we employ two distinct strategies to generate positive pairs for the contrastive loss function. The first strategy utilizes a Self-Supervised Contrastive approach, which relies on domain-specific data augmentation applied across the signals received by the four different antennas, teaching the model to recognize the same physical event regardless of the specific antenna's "view."
+
+The second strategy leverages the Supervised Contrastive Learning (SupCon) framework introduced by Khosla et al. \cite{supcon}. Khosla et al. demonstrated that traditional contrastive learning could be significantly improved by incorporating label information during the pre-training phase. Instead of relying solely on augmented versions of a single sample, SupCon treats entirely different samples belonging to the same class as positive keys. Their work proved that this supervised approach yields representations that are remarkably robust to noise, outperforming standard cross-entropy training. By adapting this framework to Doppler traces, we force the network to cluster samples of the same activity closer together in the latent space, regardless of the person performing it or the environment they are in.
+
+\subsection{Architectural Foundations: ResNet-34 and SimCLR}
+To effectively process the complex temporal and spatial information captured in the Doppler traces, our models draw upon established deep learning architectures and self-supervised frameworks. Specifically, we utilize ResNet-34 \cite{ResNet-34} as the core backbone for feature extraction in our self-supervised approach to extract complex hierarchical features from the spectrograms while mitigating the vanishing gradient problem.
+
+Furthermore, our multi-antenna pre-training strategy is heavily inspired by SimCLR \cite{SimCLR}.We adapt its foundational NT-Xent loss for the RF domain. Instead of just two augmented views, we modify the loss function into a multi-positive formulation that simultaneously leverages the signals from all four receiver antennas as naturally occurring positive views of the same physical event.
+\\\\
+By combining the sanitized, high-quality CSI dataset from \cite{data, dataset} with the advanced representation learning techniques detailed in \cite{contrastive} and \cite{supcon}, our proposed pipelines successfully extend the capabilities of traditional Wi-Fi sensing to handle both generalized Activity Recognition and specific Person Identification.
