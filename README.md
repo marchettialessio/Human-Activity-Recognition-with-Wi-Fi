@@ -25,17 +25,17 @@ così un'interruzione di rete non lascia un file troncato.
 
 | notebook | contenuto |
 |---|---|
-| [`src/main.ipynb`](src/main.ipynb) | baseline supervisionata, porting di `CSI_network.py` in PyTorch |
-| [`src/contrastive.ipynb`](src/contrastive.ipynb) | pretraining contrastivo multi-view + fine-tuning a 2 teste (AR + PI) |
+| [`src/SHARP.ipynb`](src/main.ipynb) | baseline supervisionata, porting di `CSI_network.py` in PyTorch |
+| [`src/Self-Supervised_Contrastive.ipynb`](src/Self-Supervised_Contrastive.ipynb) | pretraining contrastivo multi-view + fine-tuning a 2 teste (AR + PI) |
+| [`src/Supervised_Contrastive.ipynb`](src/Supervised_Contrastive.ipynb) | pretraining contrastivo, chiavi positive : sample con stessa label + fine-tuning con singola head per AR |
 
-Con i pesi scaricati, `contrastive.ipynb` **salta l'addestramento** e passa diretto alla valutazione:
-il pretraining riprende da epoca 100/100 e il fine-tuning da fase `full` epoca 15. Per riaddestrare
-da zero, svuota la cartella dei checkpoint.
+Con i pesi scaricati, `Self-Supervised_Contrastive.ipynb` e  `Supervised_Contrastive.ipynb`**saltano l'addestramento** e passano diretti alla valutazione:
+il pretraining e il fine-tuning riprendono dall'ultima epoca. Per riaddestrare da zero, svuota la cartella dei checkpoint e commenta la sezione per scaricare i pesi, rispettivamente nelle celle 16 e 12.
 
 Per far sopravvivere i checkpoint a una disconnessione di Colab, imposta `USE_OWN_DRIVE = True`
 nella cella dei checkpoint: monta il tuo Drive e salva in `MyDrive/HAR_checkpoints`.
 
-## Pipeline
+## Pipeline per Self-Supervised Contrastive
 
 1. **Generazione dataset** — spettro Doppler per antenna, media per colonna rimossa, split temporale
    60/20/20 per attività con gap anti-overlap, finestre da 340 colonne.
@@ -47,6 +47,14 @@ nella cella dei checkpoint: monta il tuo Drive e salva in `MyDrive/HAR_checkpoin
 4. **Valutazione** — fusione delle decisioni per media delle softmax sulle 4 antenne della stessa
    acquisizione. Il set `S6` è tenuto fuori dal training e serve solo da test di generalizzazione AR.
 
+## Pipeline per Supervised Contrastive
+
+1. **Generazione dataset** — spettro Doppler per antenna, media per colonna rimossa, split temporale
+   60/20/20 per attività con gap anti-overlap, finestre da 340 colonne.
+2. **Pretraining contrastivo** — positivi definiti dalle finestre con la stessa etichetta di attività; le altre classi sono negativi.
+3. **Fine-tuning a singola head per AR** — backbone contrastivo congelato, poi fine-tuning della classificazione con Cross-Entropy.
+4. **Valutazione** — accuratezza e confusion matrix sul test, con fusione delle quattro antenne della stessa acquisizione.
+
 ## Asset della release
 
 | file | dimensione | contenuto |
@@ -55,6 +63,8 @@ nella cella dei checkpoint: monta il tuo Drive e salva in `MyDrive/HAR_checkpoin
 | `contrastive_resnet.torch` | 260 MB | backbone ResNet34, pretraining contrastivo, 100 epoche |
 | `twohead_resnet.torch` | 259 MB | fine-tuning 2 teste, checkpoint riavviabile |
 | `twohead_resnet_best.torch` | 86 MB | migliori pesi su validation |
+| `supcon_checkpoint.torch` | 210 MB | pesi della backbone per Supervised_Contrastive |
+| `classification_head_best.torch` | 2.1 MB | migliori pesi su validation per la head di Supervised_Contrastive |
 
 ## Crediti
 
